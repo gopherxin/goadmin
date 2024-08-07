@@ -9,11 +9,11 @@ import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
+	"github.com/gopherxin/goadmin/app/internal/data"
+	"github.com/gopherxin/goadmin/app/internal/server"
+	"github.com/gopherxin/goadmin/app/internal/service"
 	"goadmin/app/internal/biz"
 	"goadmin/app/internal/conf"
-	"goadmin/app/internal/data"
-	"goadmin/app/internal/server"
-	"goadmin/app/internal/service"
 )
 
 // wireApp init kratos application.

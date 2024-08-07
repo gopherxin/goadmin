@@ -11,8 +11,8 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/gopherxin/goadmin/app/internal/biz"
 	"github.com/gopherxin/goadmin/app/internal/conf"
-	data "github.com/gopherxin/goadmin/app/internal/data"
-	server "github.com/gopherxin/goadmin/app/internal/server"
+	"github.com/gopherxin/goadmin/app/internal/data"
+	"github.com/gopherxin/goadmin/app/internal/server"
 	"github.com/gopherxin/goadmin/app/internal/service"
 )
 
@@ -20,15 +20,16 @@ import (
 
 // wireApp init kratos application.
 func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
-	dataData, cleanup, err := data.NewData(confData, logger)
+	db := data.NewDB(confData, logger)
+	dataData, cleanup, err := data.NewData(db, logger)
 	if err != nil {
 		return nil, nil, err
 	}
-	greeterRepo := data.NewGreeterRepo(dataData, logger)
-	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
-	greeterService := service.NewGreeterService(greeterUsecase)
-	grpcServer := server.NewGRPCServer(confServer, greeterService, logger)
-	httpServer := server.NewHTTPServer(confServer, greeterService, logger)
+	systemUserRepo := data.NewSystemUserRepo(dataData, logger)
+	systemUserUseCase := biz.NewSystemUserUseCase(systemUserRepo, logger)
+	systemUserService := service.NewSystemUserService(systemUserUseCase, logger)
+	grpcServer := server.NewGRPCServer(confServer, systemUserService, logger)
+	httpServer := server.NewHTTPServer(confServer, systemUserService, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()
