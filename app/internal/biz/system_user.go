@@ -4,25 +4,24 @@ import (
 	"context"
 	"errors"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/gopherxin/goadmin/app/internal/common"
 )
 
 var (
 	ErrUserNotFound = errors.New("user not found")
 )
 
-// User 用户
+// SystemUser  用户
 type SystemUser struct {
-	Id       int64
-	Username string
-	Nickname string
+	common.BaseModel
 	Mobile   string
+	Nickname string
 	Password string
-	BaseModel
+	Username string
 }
 
 type SystemUserRepo interface {
 	CreateUser(ctx context.Context, u *SystemUser) (int64, error)
-	GetUser(ctx context.Context, id int64) (*SystemUser, error)
 }
 
 type SystemUserUseCase struct {
@@ -33,4 +32,9 @@ type SystemUserUseCase struct {
 
 func NewSystemUserUseCase(repo SystemUserRepo, logger log.Logger) *SystemUserUseCase {
 	return &SystemUserUseCase{repo: repo, log: log.NewHelper(log.With(logger, "module", "goadmin/system/user"))}
+}
+
+func (su *SystemUserUseCase) CreateUser(ctx context.Context, u *SystemUser) (int64, error) {
+	id, err := su.repo.CreateUser(ctx, u)
+	return id, err
 }
