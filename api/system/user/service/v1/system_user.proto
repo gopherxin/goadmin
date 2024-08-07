@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package api.system.user.service.v1;
+
+import "google/protobuf/any.proto";
+import "google/api/annotations.proto";
+option go_package = "system/user/service/v1;v1";
+
+message globalResponse{
+  int32 code = 1;
+  string msg = 2;
+  //任意类型
+  google.protobuf.Any data = 3;
+}
+
+service SystemUser {
+  rpc CreateSystemUser (CreateSystemUserRequest) returns (CreateSystemUserReply){
+    option (google.api.http) = {
+      post: "/v1/system/user/create"
+      body: "*"
+    };
+  }
+  rpc UpdateSystemUser (UpdateSystemUserRequest) returns (UpdateSystemUserReply);
+  rpc DeleteSystemUser (DeleteSystemUserRequest) returns (DeleteSystemUserReply);
+  rpc GetSystemUser (GetSystemUserRequest) returns (GetSystemUserReply){
+    option (google.api.http) = {
+      get: "/v1/system/user/${id}"
+    };
+  }
+  rpc ListSystemUser (ListSystemUserRequest) returns (ListSystemUserReply);
+}
+message CreateSystemUserRequest {
+  string username = 1;
+  string nickname = 2;
+  string password = 3;
+  string mobile = 4;
+}
+message CreateSystemUserReply {
+}
+
+message UpdateSystemUserRequest {}
+message UpdateSystemUserReply {}
+
+message DeleteSystemUserRequest {}
+message DeleteSystemUserReply {}
+
+message GetSystemUserRequest {
+  int64 id = 1;
+}
+message GetSystemUserReply {
+  int64 id = 1;
+  string username = 2;
+  string nickname = 3;
+  string password = 4;
+  string mobile = 5;
+}
+
+message ListSystemUserRequest {}
+message ListSystemUserReply {}

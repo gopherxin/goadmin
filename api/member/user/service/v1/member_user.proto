@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api.member.user.service.v1;
+
+option go_package = "github.com/gopherxin/goadmin/api/member/user/service/v1;v1";
+
+service MemberUser {
+	rpc CreateMemberUser (CreateMemberUserRequest) returns (CreateMemberUserReply);
+	rpc UpdateMemberUser (UpdateMemberUserRequest) returns (UpdateMemberUserReply);
+	rpc DeleteMemberUser (DeleteMemberUserRequest) returns (DeleteMemberUserReply);
+	rpc GetMemberUser (GetMemberUserRequest) returns (GetMemberUserReply);
+	rpc ListMemberUser (ListMemberUserRequest) returns (ListMemberUserReply);
+}
+
+message CreateMemberUserRequest {}
+message CreateMemberUserReply {}
+
+message UpdateMemberUserRequest {}
+message UpdateMemberUserReply {}
+
+message DeleteMemberUserRequest {}
+message DeleteMemberUserReply {}
+
+message GetMemberUserRequest {}
+message GetMemberUserReply {}
+
+message ListMemberUserRequest {}
+message ListMemberUserReply {}
